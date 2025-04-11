@@ -1,0 +1,25 @@
+pub mod activations;
+pub mod associations;
+pub mod defaultpatchbaselines;
+pub mod documents;
+pub mod maintenancewindows;
+pub mod maintenancewindowtargets;
+pub mod maintenancewindowtasks;
+pub mod parameters;
+pub mod patchbaselines;
+pub mod patchgroups;
+pub mod resourcedatasyncs;
+pub mod servicesettings;
+
+pub use activations::*;
+pub use associations::*;
+pub use defaultpatchbaselines::*;
+pub use documents::*;
+pub use maintenancewindows::*;
+pub use maintenancewindowtargets::*;
+pub use maintenancewindowtasks::*;
+pub use parameters::*;
+pub use patchbaselines::*;
+pub use patchgroups::*;
+pub use resourcedatasyncs::*;
+pub use servicesettings::*;

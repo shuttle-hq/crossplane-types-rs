@@ -1,0 +1,21 @@
+pub mod delegationsets;
+pub mod healthchecks;
+pub mod hostedzonednssecs;
+pub mod records;
+pub mod resolverconfigs;
+pub mod trafficpolicies;
+pub mod trafficpolicyinstances;
+pub mod vpcassociationauthorizations;
+pub mod zoneassociations;
+pub mod zones;
+
+pub use delegationsets::*;
+pub use healthchecks::*;
+pub use hostedzonednssecs::*;
+pub use records::*;
+pub use resolverconfigs::*;
+pub use trafficpolicies::*;
+pub use trafficpolicyinstances::*;
+pub use vpcassociationauthorizations::*;
+pub use zoneassociations::*;
+pub use zones::*;

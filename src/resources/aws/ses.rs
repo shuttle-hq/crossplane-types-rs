@@ -1,0 +1,27 @@
+pub mod activereceiptrulesets;
+pub mod configurationsets;
+pub mod domaindkims;
+pub mod domainidentities;
+pub mod domainmailfroms;
+pub mod emailidentities;
+pub mod eventdestinations;
+pub mod identitynotificationtopics;
+pub mod identitypolicies;
+pub mod receiptfilters;
+pub mod receiptrules;
+pub mod receiptrulesets;
+pub mod templates;
+
+pub use activereceiptrulesets::*;
+pub use configurationsets::*;
+pub use domaindkims::*;
+pub use domainidentities::*;
+pub use domainmailfroms::*;
+pub use emailidentities::*;
+pub use eventdestinations::*;
+pub use identitynotificationtopics::*;
+pub use identitypolicies::*;
+pub use receiptfilters::*;
+pub use receiptrules::*;
+pub use receiptrulesets::*;
+pub use templates::*;
