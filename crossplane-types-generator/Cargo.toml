@@ -1,0 +1,53 @@
+[package]
+name = "crossplane-types-generator"
+publish = false
+version = "0.0.1"
+authors = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+default-run = "generate-crossplane-crates"
+description = "TODO"
+
+[[bin]]
+name = "generate-crossplane-crates"
+path = "src/bin/generate-crates.rs"
+
+[dependencies]
+anyhow = { version = "1", default-features = false, features = ["std"] }
+askama = { version = "0.14.0", features = ["full"] }
+cargo_toml = { version = "0", default-features = false, features = ["features"] }
+clap = { version = "4.5", features = ["cargo", "derive"] }
+futures-util = { version = "0.3", default-features = false, features = ["std"] }
+itertools = { version = "0.14", default-features = false, features = [
+    "use_std",
+] }
+k8s-openapi = { workspace = true }
+kopium = { version = "0.21", default-features = false }
+reqwest = { version = "0.12", default-features = false, features = [
+    "http2",
+    "json",
+    "rustls-tls",
+    "rustls-tls-native-roots",
+] }
+serde_path_to_error = { version = "0", default-features = false }
+serde_yaml = { package = "serde_yml", version = "0", default-features = false }
+tokio = { version = "1", default-features = false, features = [
+    "macros",
+    "rt",
+    "rt-multi-thread",
+] }
+tracing = { version = "0.1", default-features = false }
+tracing-subscriber = { version = "0.3", default-features = false, features = [
+    "ansi",
+    "env-filter",
+    "smallvec",
+    "tracing-log",
+] }
+zip = { version = "4", default-features = false, features = [
+    "deflate",
+    "lzma",
+    "time",
+    "xz",
+    "zstd",
+] }

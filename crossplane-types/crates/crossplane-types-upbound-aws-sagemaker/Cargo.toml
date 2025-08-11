@@ -1,0 +1,49 @@
+[package]
+name = "crossplane-types-upbound-aws-sagemaker"
+version = { workspace = true }
+authors = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+
+[package.metadata.crossplane.provider]
+name = "sagemaker"
+family = "aws"
+src-version = "1.21.1"
+managed-resources = [
+    "appimageconfigs",
+    "apps",
+    "coderepositories",
+    "devicefleet",
+    "devices",
+    "domains",
+    "endpointconfigurations",
+    "endpoints",
+    "featuregroups",
+    "images",
+    "imageversions",
+    "mlflowtrackingservers",
+    "modelpackagegrouppolicies",
+    "modelpackagegroups",
+    "models",
+    "notebookinstancelifecycleconfigurations",
+    "notebookinstances",
+    "servicecatalogportfoliostatuses",
+    "spaces",
+    "studiolifecycleconfigs",
+    "userprofiles",
+    "workforces",
+    "workteams",
+]
+
+[lints]
+workspace = true
+
+[dependencies]
+k8s-openapi = { workspace = true }
+kube = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+typed-builder = { workspace = true }

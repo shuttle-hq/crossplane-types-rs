@@ -1,0 +1,22 @@
+[formatting]
+compact_arrays = false
+compact_inline_tables = false
+
+
+[[rule]]
+include = ["**/Cargo.toml", "**/rustfmt.toml"]
+keys = [
+  "lints",
+  "target",
+  "dependencies",
+  "dev-dependencies",
+  "build-dependencies",
+  "workspace.dependencies",
+]
+
+[rule.formatting]
+reorder_keys = true
+reorder_arrays = true
+array_auto_expand = true
+array_auto_collapse = false
+reorder_inline_tables = true

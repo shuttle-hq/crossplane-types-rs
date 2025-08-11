@@ -1,0 +1,127 @@
+[package]
+name = "crossplane-types-upbound-aws-ec2"
+version = { workspace = true }
+authors = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+
+[package.metadata.crossplane.provider]
+name = "ec2"
+family = "aws"
+src-version = "1.21.1"
+managed-resources = [
+    "amicopies",
+    "amilaunchpermissions",
+    "amis",
+    "availabilityzonegroups",
+    "capacityreservations",
+    "carriergateways",
+    "customergateways",
+    "defaultnetworkacls",
+    "defaultroutetables",
+    "defaultsecuritygroups",
+    "defaultsubnets",
+    "defaultvpcdhcpoptions",
+    "defaultvpcs",
+    "ebsdefaultkmskeys",
+    "ebsencryptionbydefaults",
+    "ebssnapshotcopies",
+    "ebssnapshotimports",
+    "ebssnapshots",
+    "ebsvolumes",
+    "egressonlyinternetgateways",
+    "eipassociations",
+    "eips",
+    "fleets",
+    "flowlogs",
+    "hosts",
+    "instances",
+    "instancestates",
+    "internetgateways",
+    "keypairs",
+    "launchtemplates",
+    "mainroutetableassociations",
+    "managedprefixlistentries",
+    "managedprefixlists",
+    "natgateways",
+    "networkaclrules",
+    "networkacls",
+    "networkinsightsanalyses",
+    "networkinsightspaths",
+    "networkinterfaceattachments",
+    "networkinterfaces",
+    "networkinterfacesgattachments",
+    "placementgroups",
+    "routes",
+    "routetableassociations",
+    "routetables",
+    "securitygroupegressrules",
+    "securitygroupingressrules",
+    "securitygrouprules",
+    "securitygroups",
+    "serialconsoleaccesses",
+    "snapshotcreatevolumepermissions",
+    "spotdatafeedsubscriptions",
+    "spotfleetrequests",
+    "spotinstancerequests",
+    "subnetcidrreservations",
+    "subnets",
+    "tags",
+    "trafficmirrorfilterrules",
+    "trafficmirrorfilters",
+    "transitgatewayconnectpeers",
+    "transitgatewayconnects",
+    "transitgatewaymulticastdomainassociations",
+    "transitgatewaymulticastdomains",
+    "transitgatewaymulticastgroupmembers",
+    "transitgatewaymulticastgroupsources",
+    "transitgatewaypeeringattachmentaccepters",
+    "transitgatewaypeeringattachments",
+    "transitgatewaypolicytables",
+    "transitgatewayprefixlistreferences",
+    "transitgatewayroutes",
+    "transitgatewayroutetableassociations",
+    "transitgatewayroutetablepropagations",
+    "transitgatewayroutetables",
+    "transitgateways",
+    "transitgatewayvpcattachmentaccepters",
+    "transitgatewayvpcattachments",
+    "volumeattachments",
+    "vpcdhcpoptions",
+    "vpcdhcpoptionsassociations",
+    "vpcendpointconnectionnotifications",
+    "vpcendpointroutetableassociations",
+    "vpcendpoints",
+    "vpcendpointsecuritygroupassociations",
+    "vpcendpointserviceallowedprincipals",
+    "vpcendpointservices",
+    "vpcendpointsubnetassociations",
+    "vpcipampoolcidrallocations",
+    "vpcipampoolcidrs",
+    "vpcipampools",
+    "vpcipams",
+    "vpcipamscopes",
+    "vpcipv4cidrblockassociations",
+    "vpcpeeringconnectionaccepters",
+    "vpcpeeringconnectionoptions",
+    "vpcpeeringconnections",
+    "vpcs",
+    "vpnconnectionroutes",
+    "vpnconnections",
+    "vpngatewayattachments",
+    "vpngatewayroutepropagations",
+    "vpngateways",
+]
+
+[lints]
+workspace = true
+
+[dependencies]
+k8s-openapi = { workspace = true }
+kube = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+typed-builder = { workspace = true }

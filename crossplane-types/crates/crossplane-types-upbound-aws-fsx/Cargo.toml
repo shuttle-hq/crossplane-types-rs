@@ -1,0 +1,32 @@
+[package]
+name = "crossplane-types-upbound-aws-fsx"
+version = { workspace = true }
+authors = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+
+[package.metadata.crossplane.provider]
+name = "fsx"
+family = "aws"
+src-version = "1.21.1"
+managed-resources = [
+    "backups",
+    "datarepositoryassociations",
+    "lustrefilesystems",
+    "ontapfilesystems",
+    "ontapstoragevirtualmachines",
+    "windowsfilesystems",
+]
+
+[lints]
+workspace = true
+
+[dependencies]
+k8s-openapi = { workspace = true }
+kube = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+typed-builder = { workspace = true }

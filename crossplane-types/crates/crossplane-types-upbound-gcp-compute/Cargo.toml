@@ -1,0 +1,121 @@
+[package]
+name = "crossplane-types-upbound-gcp-compute"
+version = { workspace = true }
+authors = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+
+[package.metadata.crossplane.provider]
+name = "compute"
+family = "gcp"
+src-version = "1.14.0"
+managed-resources = [
+    "addresses",
+    "attacheddisks",
+    "autoscalers",
+    "backendbuckets",
+    "backendbucketsignedurlkeys",
+    "backendservices",
+    "backendservicesignedurlkeys",
+    "diskiammembers",
+    "diskresourcepolicyattachments",
+    "disks",
+    "externalvpngateways",
+    "firewallpolicies",
+    "firewallpolicyassociations",
+    "firewallpolicyrules",
+    "firewalls",
+    "forwardingrules",
+    "globaladdresses",
+    "globalforwardingrules",
+    "globalnetworkendpointgroups",
+    "globalnetworkendpoints",
+    "havpngateways",
+    "healthchecks",
+    "httphealthchecks",
+    "httpshealthchecks",
+    "imageiammembers",
+    "images",
+    "instancefromtemplates",
+    "instancegroupmanagers",
+    "instancegroupnamedports",
+    "instancegroups",
+    "instanceiammembers",
+    "instances",
+    "instancetemplates",
+    "interconnectattachments",
+    "managedsslcertificates",
+    "networkendpointgroups",
+    "networkendpoints",
+    "networkfirewallpolicies",
+    "networkfirewallpolicyassociations",
+    "networkfirewallpolicyrules",
+    "networkpeeringroutesconfigs",
+    "networkpeerings",
+    "networks",
+    "nodegroups",
+    "nodetemplates",
+    "packetmirrorings",
+    "perinstanceconfigs",
+    "projectdefaultnetworktiers",
+    "projectmetadata",
+    "projectmetadataitems",
+    "regionautoscalers",
+    "regionbackendservices",
+    "regiondiskiammembers",
+    "regiondiskresourcepolicyattachments",
+    "regiondisks",
+    "regionhealthchecks",
+    "regioninstancegroupmanagers",
+    "regionnetworkendpointgroups",
+    "regionnetworkendpoints",
+    "regionnetworkfirewallpolicies",
+    "regionnetworkfirewallpolicyassociations",
+    "regionperinstanceconfigs",
+    "regionsslcertificates",
+    "regionsslpolicies",
+    "regiontargethttpproxies",
+    "regiontargethttpsproxies",
+    "regiontargettcpproxies",
+    "regionurlmaps",
+    "reservations",
+    "resourcepolicies",
+    "routerinterfaces",
+    "routernats",
+    "routerpeers",
+    "routers",
+    "routes",
+    "securitypolicies",
+    "serviceattachments",
+    "sharedvpchostprojects",
+    "sharedvpcserviceprojects",
+    "snapshotiammembers",
+    "snapshots",
+    "sslcertificates",
+    "sslpolicies",
+    "subnetworkiammembers",
+    "subnetworks",
+    "targetgrpcproxies",
+    "targethttpproxies",
+    "targethttpsproxies",
+    "targetinstances",
+    "targetpools",
+    "targetsslproxies",
+    "targettcpproxies",
+    "urlmaps",
+    "vpngateways",
+    "vpntunnels",
+]
+
+[lints]
+workspace = true
+
+[dependencies]
+k8s-openapi = { workspace = true }
+kube = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+typed-builder = { workspace = true }

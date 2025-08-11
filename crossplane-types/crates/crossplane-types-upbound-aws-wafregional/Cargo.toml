@@ -1,0 +1,37 @@
+[package]
+name = "crossplane-types-upbound-aws-wafregional"
+version = { workspace = true }
+authors = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+
+[package.metadata.crossplane.provider]
+name = "wafregional"
+family = "aws"
+src-version = "1.21.1"
+managed-resources = [
+    "bytematchsets",
+    "geomatchsets",
+    "ipsets",
+    "ratebasedrules",
+    "regexmatchsets",
+    "regexpatternsets",
+    "rules",
+    "sizeconstraintsets",
+    "sqlinjectionmatchsets",
+    "webacls",
+    "xssmatchsets",
+]
+
+[lints]
+workspace = true
+
+[dependencies]
+k8s-openapi = { workspace = true }
+kube = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+typed-builder = { workspace = true }
