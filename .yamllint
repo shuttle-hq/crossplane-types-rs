@@ -1,0 +1,11 @@
+---
+yaml-files:
+  - "*.yml"
+  - "*.yaml"
+  - ".yamllint"
+
+rules:
+  braces:
+    ignore: |
+      helm/**/*.yml
+      helm/**/*.yaml

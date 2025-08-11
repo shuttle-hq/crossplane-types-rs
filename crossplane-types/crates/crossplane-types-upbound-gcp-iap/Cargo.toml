@@ -1,0 +1,33 @@
+[package]
+name = "crossplane-types-upbound-gcp-iap"
+version = { workspace = true }
+authors = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+
+[package.metadata.crossplane.provider]
+name = "iap"
+family = "gcp"
+src-version = "1.14.0"
+managed-resources = [
+    "appengineserviceiammembers",
+    "appengineversioniammembers",
+    "tunneliammembers",
+    "webbackendserviceiammembers",
+    "webiammembers",
+    "webtypeappengineiammembers",
+    "webtypecomputeiammembers",
+]
+
+[lints]
+workspace = true
+
+[dependencies]
+k8s-openapi = { workspace = true }
+kube = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+typed-builder = { workspace = true }

@@ -1,0 +1,59 @@
+[env]
+RUST_BACKTRACE = "0"
+
+[alias]
+rust-nightly = "core:rust"
+
+[tools]
+yq = "4"
+cargo-binstall = "latest"
+"cargo:cargo-hack" = "latest"
+"cargo:cargo-audit" = "latest"
+
+[tools.rust]
+profile = "default"
+version = "{{ get_env(name='RUST_VERSION', default='stable') }}"
+components = "cargo,clippy"
+
+[tools.rust-nightly]
+profile = "minimal"
+version = "nightly"
+components = "cargo,rustfmt"
+
+[settings.cargo]
+binstall = true
+
+
+[tasks.fmt]
+description = "Format Rust code with nightly rustfmt"
+run = "cargo +nightly fmt --all --check -- --config-path {{ config_root }}/rustfmt.toml"
+
+[tasks.clippy]
+description = "Run clippy lints"
+run = """
+cargo \
+  clippy \
+  --tests \
+  --no-deps \
+  --all-targets \
+  --all-features \
+  -- -D warnings
+"""
+
+[tasks.audit-workspace]
+description = "Run cargo audit"
+run = "cargo audit"
+
+[tasks.check-lockfile]
+description = "Check if Cargo.lock is up to date"
+run = """
+if ! git diff --exit-code Cargo.lock; then
+    echo '\n\nPlease commit an up to date Cargo.lock\n'
+    exit 1
+fi
+"""
+
+[tasks.lint-workspace]
+description = "Run CI checks for the workspace"
+depends = ["fmt", "clippy", "check-lockfile"]
+

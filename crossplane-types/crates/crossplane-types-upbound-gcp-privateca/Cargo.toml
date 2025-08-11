@@ -1,0 +1,32 @@
+[package]
+name = "crossplane-types-upbound-gcp-privateca"
+version = { workspace = true }
+authors = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+publish = { workspace = true }
+repository = { workspace = true }
+
+[package.metadata.crossplane.provider]
+name = "privateca"
+family = "gcp"
+src-version = "1.14.0"
+managed-resources = [
+    "capooliammembers",
+    "capools",
+    "certificateauthorities",
+    "certificates",
+    "certificatetemplateiammembers",
+    "certificatetemplates",
+]
+
+[lints]
+workspace = true
+
+[dependencies]
+k8s-openapi = { workspace = true }
+kube = { workspace = true }
+schemars = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+typed-builder = { workspace = true }
