@@ -55,9 +55,18 @@ impl std::fmt::Display for ProviderFamilyVersion {
 
 #[derive(Clone, Debug, clap::Parser)]
 pub struct CliArgs {
-    /// Remove any existing crate files before generating new ones
+    /// Remove any existing generated crates before generating new ones
     #[arg(long, default_value_t = false)]
     pub clean: bool,
+
+    /// Forcibly regenerate the entire `crossplane-types` meta-crate from scratch
+    ///
+    /// Note: by default, the `--clean` flag will cause the meta-crate's
+    /// `generated.rs` file to be removed and recreated. The `--regenerate-meta-lib`
+    /// flag should therefore be regarded as a nuclear option, as it will
+    /// wipe out any additional code or non-generated file(s) in the meta-crate.
+    #[arg(long, default_value_t = false)]
+    pub regenerate_meta_lib: bool,
 
     /// A mapping of platform names to target package versions
     ///

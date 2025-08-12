@@ -51,3 +51,6 @@ zip = { version = "4", default-features = false, features = [
     "xz",
     "zstd",
 ] }
+
+[dev-dependencies]
+k8s-openapi = { workspace = true, features = ["latest", "schemars"] }

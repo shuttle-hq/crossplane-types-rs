@@ -103,8 +103,25 @@ async fn main() -> anyhow::Result<()> {
                 src_dir.join("generated.rs"),
             );
 
-            if args.clean {
-                std::fs::remove_dir_all(&src_dir).ok();
+            if args.clean
+                && let Some(crate_dir) = src_dir.parent()
+            {
+                match std::fs::remove_dir_all(crate_dir) {
+                    Ok(_) => {}
+                    Err(error) => {
+                        if error.kind() != std::io::ErrorKind::NotFound {
+                            tracing::error!(
+                                ?error,
+                                %family,
+                                %version,
+                                %provider,
+                                "failed to clean existing provider crate",
+                            );
+
+                            continue;
+                        };
+                    }
+                }
             }
 
             if let Err(error) = std::fs::create_dir_all(&generated_dir) {
@@ -264,8 +281,9 @@ async fn main() -> anyhow::Result<()> {
         meta_crate_src_dir.join("generated.rs"),
     );
 
-    if args.clean {
-        std::fs::remove_dir_all(&meta_crate_src_dir).ok();
+    if args.regenerate_meta_lib {
+        tracing::warn!("regenerating `crossplane-types` meta-crate from scratch");
+        std::fs::remove_dir_all(&meta_crate_src_dir)?;
     }
 
     std::fs::create_dir_all(&meta_crate_src_dir)

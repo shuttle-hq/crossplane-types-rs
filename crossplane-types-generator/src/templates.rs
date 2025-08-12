@@ -29,12 +29,16 @@ use std::path::PathBuf;
 /// {{ pkg.crate_name }} = { version = "{{ version }}", path = "{{ crate_path }}", optional = true }
 /// {%- endfor %}
 /// {#+ #}
+/// [dev-dependencies]
+/// k8s-openapi = { workspace = true, features = ["latest", "schemars"] }
+/// {#+ #}
 /// {%- endblock -%}
 ///
 /// {%- block generated_lib -%}
 ///
 /// mod generated;
 ///
+/// #[allow(unused_imports)]
 /// pub use generated::*;
 /// {#+ #}
 /// {%- endblock -%}
@@ -109,6 +113,9 @@ impl Default for MetaCrate<'_> {
 /// serde = { workspace = true }
 /// serde_json = { workspace = true }
 /// typed-builder = { workspace = true }
+/// {#+ #}
+/// [dev-dependencies]
+/// k8s-openapi = { workspace = true, features = ["latest", "schemars"] }
 /// {#+ #}
 /// {%- endblock -%}
 ///

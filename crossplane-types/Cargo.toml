@@ -502,3 +502,6 @@ crossplane-types-upbound-gcp-tpu = { version = "0.2.0", path = "crates/crossplan
 crossplane-types-upbound-gcp-vertexai = { version = "0.2.0", path = "crates/crossplane-types-upbound-gcp-vertexai", optional = true }
 crossplane-types-upbound-gcp-vpcaccess = { version = "0.2.0", path = "crates/crossplane-types-upbound-gcp-vpcaccess", optional = true }
 crossplane-types-upbound-gcp-workflows = { version = "0.2.0", path = "crates/crossplane-types-upbound-gcp-workflows", optional = true }
+
+[dev-dependencies]
+k8s-openapi = { workspace = true, features = ["latest", "schemars"] }
