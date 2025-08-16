@@ -107,7 +107,7 @@ impl Default for MetaCrate<'_> {
 /// workspace = true
 ///
 /// [dependencies]
-/// k8s-openapi = { workspace = true }
+/// k8s-openapi = { workspace = true, features = ["schemars"] }
 /// kube = { workspace = true }
 /// schemars = { workspace = true }
 /// serde = { workspace = true }
@@ -115,7 +115,7 @@ impl Default for MetaCrate<'_> {
 /// typed-builder = { workspace = true }
 /// {#+ #}
 /// [dev-dependencies]
-/// k8s-openapi = { workspace = true, features = ["latest", "schemars"] }
+/// k8s-openapi = { workspace = true, features = ["latest"] }
 /// {#+ #}
 /// {%- endblock -%}
 ///
