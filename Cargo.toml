@@ -3,7 +3,7 @@ resolver = "2"
 exclude = []
 members = [
     "crossplane-types",
-    # "crossplane-types/crates/*",
+    "crossplane-types/crates/*",
     "crossplane-types-generator",
 ]
 
