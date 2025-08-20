@@ -1,0 +1,54 @@
+[package]
+name = "crossplane-types-upbound-aws-location"
+version = "0.2.0"
+authors = ["Shuttle <engineering@shuttle.dev>"]
+edition = "2024"
+license = "Apache"
+publish = true
+repository = "https://github.com/shuttle-hq/crossplane-types-rs"
+
+[package.metadata.crossplane.provider]
+name = "location"
+family = "aws"
+src-version = "1.21.1"
+managed-resources = [
+    "geofencecollections",
+    "placeindices",
+    "routecalculators",
+    "trackerassociations",
+    "trackers",
+]
+[lints.rust]
+unknown_lints = "allow"
+unsafe_code = "forbid"
+
+[lints.rust.rust_2018_idioms]
+level = "deny"
+priority = -1
+
+[dependencies.k8s-openapi]
+version = "0.25"
+features = ["schemars"]
+default-features = false
+
+[dependencies.kube]
+version = "1.1.0"
+features = ["derive"]
+default-features = false
+
+[dependencies.schemars]
+version = "0.8.22"
+features = ["chrono", "derive"]
+default-features = false
+
+[dependencies.serde]
+version = "1"
+features = ["derive"]
+default-features = false
+
+[dependencies.serde_json]
+version = "1"
+default-features = false
+
+[dev-dependencies]
+k8s-openapi = { version = "0.25", features = ["latest"] }

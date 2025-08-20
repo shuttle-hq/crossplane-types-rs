@@ -1,9 +1,9 @@
 [workspace]
 resolver = "2"
-exclude = []
+exclude = [
+    "crates",
+]
 members = [
-    "crossplane-types",
-    # "crossplane-types/crates/*",
     "crossplane-types-generator",
 ]
 
@@ -26,8 +26,10 @@ rust_2018_idioms = { level = "deny", priority = -1 }
 [patch.crates-io]
 kopium = { git = "https://github.com/the-wondersmith/kopium.git", branch = "wip/continuing-improvements" }
 
+# NOTE: `workspace.dependencies` should ONLY contain dependencies for generated crates, as
+# the table is effectively just transcribed wholesale to the manifest of each generated crate
 [workspace.dependencies]
-k8s-openapi = { version = "0.25", default-features = false }
+k8s-openapi = { version = "0.25", default-features = false, features = ["schemars"] }
 kube = { version = "1.1.0", default-features = false, features = ["derive"] }
 schemars = { version = "0.8.22", default-features = false, features = [
     "chrono",
@@ -35,4 +37,4 @@ schemars = { version = "0.8.22", default-features = false, features = [
 ] }
 serde = { version = "1", default-features = false, features = ["derive"] }
 serde_json = { version = "1", default-features = false }
-typed-builder = { version = "0", default-features = false }
+# typed-builder = { version = "0", default-features = false }

@@ -1,97 +1,61 @@
-use std::{
-    collections::HashMap,
-    ops::{Deref, DerefMut},
-};
+use std::collections::HashMap;
 
 const AWS_VERSION: &str = "1.21.1";
 const GCP_VERSION: &str = "1.14.0";
 
-fn parse_provider_family_version(
-    arg: &str,
-) -> Result<ProviderFamilyVersion, Box<dyn 'static + Send + Sync + std::error::Error>> {
+fn parse_provider_family_version(arg: &str) -> Result<(String, String), String> {
     let (key, value) = arg
         .split_once("=")
         .ok_or_else(|| format!("invalid KEY=value: no `=` found in `{arg}`"))?;
 
-    Ok((key.into(), value.into()).into())
+    let value = value
+        .strip_prefix('"')
+        .unwrap_or(value)
+        .strip_prefix("'")
+        .unwrap_or(value)
+        .strip_suffix('"')
+        .unwrap_or(value)
+        .strip_suffix("'")
+        .unwrap_or(value);
+
+    Ok((key.into(), value.into()))
 }
 
-#[derive(Clone, Debug)]
-struct ProviderFamilyVersion((String, String));
-
-impl Deref for ProviderFamilyVersion {
-    type Target = (String, String);
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-impl DerefMut for ProviderFamilyVersion {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-
-impl From<(String, String)> for ProviderFamilyVersion {
-    fn from(platforms: (String, String)) -> Self {
-        Self(platforms)
-    }
-}
-
-impl<'args, 'mapped> From<&'args ProviderFamilyVersion> for (&'mapped str, &'mapped str)
-where
-    'args: 'mapped,
-{
-    fn from(value: &'args ProviderFamilyVersion) -> Self {
-        (value.0.0.as_str(), value.0.1.as_str())
-    }
-}
-
-impl std::fmt::Display for ProviderFamilyVersion {
-    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(formatter, "{}={}", &self.0.0, &self.0.1)
-    }
-}
-
-#[derive(Clone, Debug, clap::Parser)]
+/// automatic rust type generator for Crossplane CRDs
+#[derive(Clone, Debug, argh::FromArgs)]
 pub struct CliArgs {
-    /// Remove any existing generated crates before generating new ones
-    #[arg(long, default_value_t = false)]
+    #[argh(
+        switch,
+        short = 'c',
+        long = "clean",
+        description = "remove any existing generated crates before generating new ones"
+    )]
     pub clean: bool,
 
-    /// Forcibly regenerate the entire `crossplane-types` meta-crate from scratch
-    ///
-    /// Note: by default, the `--clean` flag will cause the meta-crate's
-    /// `generated.rs` file to be removed and recreated. The `--regenerate-meta-lib`
-    /// flag should therefore be regarded as a nuclear option, as it will
-    /// wipe out any additional code or non-generated file(s) in the meta-crate.
-    #[arg(long, default_value_t = false)]
-    pub regenerate_meta_lib: bool,
-
-    /// A mapping of platform names to target package versions
-    ///
-    /// E.x.:
-    /// ```shell
-    /// --platform 'aws=1.21.1'
-    /// --platform 'gcp=1.14.0'
-    /// ```
-    #[arg(
-        long = "platform",
-        action = clap::ArgAction::Append,
-        value_parser = parse_provider_family_version,
-        default_values_t = [
-            ProviderFamilyVersion(("aws".into(), AWS_VERSION.into())),
-            ProviderFamilyVersion(("gcp".into(), GCP_VERSION.into())),
-        ],
+    #[argh(
+        option,
+        long = "provider",
+        from_str_fn(parse_provider_family_version),
+        default = r#"vec![
+            ("aws".into(), AWS_VERSION.into()),
+            ("gcp".into(), GCP_VERSION.into()),
+        ]"#,
+        description = r#"the package version to target for a given platform,
+        e.x. --platform 'aws=1.21.1' --platform 'gcp=1.14.0'"#
     )]
-    provider_families: Vec<ProviderFamilyVersion>,
+    provider_families: Vec<(String, String)>,
 }
 
 impl CliArgs {
+    #[inline(always)]
     pub fn parse() -> Self {
-        <Self as clap::Parser>::parse()
+        argh::from_env::<Self>()
     }
-    pub fn provider_families(&self) -> HashMap<&str, &str> {
-        HashMap::from_iter(self.provider_families.iter().map(Into::into))
+    pub fn provider_families(&self) -> HashMap<&String, &String> {
+        HashMap::from_iter(
+            self.provider_families
+                .iter()
+                .map(|(key, value)| (key, value)),
+        )
     }
 }

@@ -1,4 +1,4 @@
-use std::{ffi::OsStr, path::Path, sync::LazyLock};
+use std::{collections::HashMap, ffi::OsStr, path::Path, sync::LazyLock};
 
 use anyhow::Context;
 
@@ -6,35 +6,34 @@ static CRDS: LazyLock<Option<&OsStr>> = LazyLock::new(|| Some(OsStr::new("crds")
 static YAML: LazyLock<Option<&OsStr>> = LazyLock::new(|| Some(OsStr::new("yaml")));
 static PACKAGE: LazyLock<Option<&OsStr>> = LazyLock::new(|| Some(OsStr::new("package")));
 
-static WORKSPACE_MANIFEST: LazyLock<cargo_toml::Manifest<cargo_toml::Value>> =
-    LazyLock::new(|| {
-        cargo_toml::Manifest::<cargo_toml::Value>::from_path_with_metadata(concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/..",
-            "/Cargo.toml",
-        ))
-        .expect("failed to read workspace `Cargo.toml` manifest")
-    });
-static WORKSPACE_VERSION: LazyLock<&'static String> = LazyLock::new(|| {
-    let workspace = WORKSPACE_MANIFEST
-        .workspace
-        .as_ref()
-        .expect("workspace `Cargo.toml` manifest missing required `[workspace]` table");
-
-    let package = workspace
-        .package
-        .as_ref()
-        .expect("workspace `Cargo.toml` manifest missing required `[workspace.package]` table");
-
-    package.version.as_ref().expect(
-        "workspace `Cargo.toml` manifest missing required `workspace.package.version` field",
-    )
+pub static WORKSPACE_MANIFEST: LazyLock<crate::WorkspaceManifest> = LazyLock::new(|| {
+    crate::CargoManifest::from_path_with_metadata(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/..",
+        "/Cargo.toml",
+    ))
+    .expect("failed to read workspace `Cargo.toml` manifest")
+    .workspace
+    .expect("workspace `Cargo.toml` manifest missing required `[workspace]` table")
 });
 
-pub fn workspace_version() -> &'static str {
-    WORKSPACE_VERSION.as_str()
+pub static WORKSPACE_PACKAGE: LazyLock<&'static cargo_toml::PackageTemplate> =
+    LazyLock::new(|| {
+        WORKSPACE_MANIFEST
+            .package
+            .as_ref()
+            .expect("workspace `Cargo.toml` manifest missing required `[workspace.package]` table")
+    });
+
+pub static WORKSPACE_LINTS: LazyLock<HashMap<&'static str, &'static cargo_toml::LintGroups>> =
+    LazyLock::new(|| HashMap::from_iter([("lints", &WORKSPACE_MANIFEST.lints)]));
+
+#[track_caller]
+pub fn to_toml(value: impl serde::Serialize) -> String {
+    toml::to_string(&value).expect("failed to serialize value")
 }
 
+#[track_caller]
 pub fn replace(string: &str, target: &str, replacement: &str) -> String {
     string.replace(target, replacement)
 }

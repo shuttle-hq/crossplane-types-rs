@@ -1,0 +1,150 @@
+[package]
+name = "crossplane-types-upbound-aws-ec2"
+version = "0.2.0"
+authors = ["Shuttle <engineering@shuttle.dev>"]
+edition = "2024"
+license = "Apache"
+publish = true
+repository = "https://github.com/shuttle-hq/crossplane-types-rs"
+
+[package.metadata.crossplane.provider]
+name = "ec2"
+family = "aws"
+src-version = "1.21.1"
+managed-resources = [
+    "amicopies",
+    "amilaunchpermissions",
+    "amis",
+    "availabilityzonegroups",
+    "capacityreservations",
+    "carriergateways",
+    "customergateways",
+    "defaultnetworkacls",
+    "defaultroutetables",
+    "defaultsecuritygroups",
+    "defaultsubnets",
+    "defaultvpcdhcpoptions",
+    "defaultvpcs",
+    "ebsdefaultkmskeys",
+    "ebsencryptionbydefaults",
+    "ebssnapshotcopies",
+    "ebssnapshotimports",
+    "ebssnapshots",
+    "ebsvolumes",
+    "egressonlyinternetgateways",
+    "eipassociations",
+    "eips",
+    "fleets",
+    "flowlogs",
+    "hosts",
+    "instances",
+    "instancestates",
+    "internetgateways",
+    "keypairs",
+    "launchtemplates",
+    "mainroutetableassociations",
+    "managedprefixlistentries",
+    "managedprefixlists",
+    "natgateways",
+    "networkaclrules",
+    "networkacls",
+    "networkinsightsanalyses",
+    "networkinsightspaths",
+    "networkinterfaceattachments",
+    "networkinterfaces",
+    "networkinterfacesgattachments",
+    "placementgroups",
+    "routes",
+    "routetableassociations",
+    "routetables",
+    "securitygroupegressrules",
+    "securitygroupingressrules",
+    "securitygrouprules",
+    "securitygroups",
+    "serialconsoleaccesses",
+    "snapshotcreatevolumepermissions",
+    "spotdatafeedsubscriptions",
+    "spotfleetrequests",
+    "spotinstancerequests",
+    "subnetcidrreservations",
+    "subnets",
+    "tags",
+    "trafficmirrorfilterrules",
+    "trafficmirrorfilters",
+    "transitgatewayconnectpeers",
+    "transitgatewayconnects",
+    "transitgatewaymulticastdomainassociations",
+    "transitgatewaymulticastdomains",
+    "transitgatewaymulticastgroupmembers",
+    "transitgatewaymulticastgroupsources",
+    "transitgatewaypeeringattachmentaccepters",
+    "transitgatewaypeeringattachments",
+    "transitgatewaypolicytables",
+    "transitgatewayprefixlistreferences",
+    "transitgatewayroutes",
+    "transitgatewayroutetableassociations",
+    "transitgatewayroutetablepropagations",
+    "transitgatewayroutetables",
+    "transitgateways",
+    "transitgatewayvpcattachmentaccepters",
+    "transitgatewayvpcattachments",
+    "volumeattachments",
+    "vpcdhcpoptions",
+    "vpcdhcpoptionsassociations",
+    "vpcendpointconnectionnotifications",
+    "vpcendpointroutetableassociations",
+    "vpcendpoints",
+    "vpcendpointsecuritygroupassociations",
+    "vpcendpointserviceallowedprincipals",
+    "vpcendpointservices",
+    "vpcendpointsubnetassociations",
+    "vpcipampoolcidrallocations",
+    "vpcipampoolcidrs",
+    "vpcipampools",
+    "vpcipams",
+    "vpcipamscopes",
+    "vpcipv4cidrblockassociations",
+    "vpcpeeringconnectionaccepters",
+    "vpcpeeringconnectionoptions",
+    "vpcpeeringconnections",
+    "vpcs",
+    "vpnconnectionroutes",
+    "vpnconnections",
+    "vpngatewayattachments",
+    "vpngatewayroutepropagations",
+    "vpngateways",
+]
+[lints.rust]
+unknown_lints = "allow"
+unsafe_code = "forbid"
+
+[lints.rust.rust_2018_idioms]
+level = "deny"
+priority = -1
+
+[dependencies.k8s-openapi]
+version = "0.25"
+features = ["schemars"]
+default-features = false
+
+[dependencies.kube]
+version = "1.1.0"
+features = ["derive"]
+default-features = false
+
+[dependencies.schemars]
+version = "0.8.22"
+features = ["chrono", "derive"]
+default-features = false
+
+[dependencies.serde]
+version = "1"
+features = ["derive"]
+default-features = false
+
+[dependencies.serde_json]
+version = "1"
+default-features = false
+
+[dev-dependencies]
+k8s-openapi = { version = "0.25", features = ["latest"] }

@@ -3,20 +3,15 @@ use std::{
     sync::LazyLock,
 };
 
-use anyhow::Context;
 use askama::Template;
 use crossplane_types_generator::{cli, templates, utils};
 use itertools::Itertools;
 use tracing_subscriber::{EnvFilter, layer::SubscriberExt, util::SubscriberInitExt};
 
-static META_CRATE_DIR: LazyLock<PathBuf> = LazyLock::new(|| {
-    <str as AsRef<Path>>::as_ref(concat!(
-        env!("CARGO_MANIFEST_DIR"),
-        "/..",
-        "/crossplane-types"
-    ))
-    .canonicalize()
-    .expect("failed to canonicalize on-disk path to `crossplane-types` crate directory")
+static PROVIDER_CRATES_DIR: LazyLock<PathBuf> = LazyLock::new(|| {
+    <str as AsRef<Path>>::as_ref(concat!(env!("CARGO_MANIFEST_DIR"), "/..", "/crates"))
+        .canonicalize()
+        .expect("failed to canonicalize on-disk path to provider crates directory")
 });
 
 #[tokio::main]
@@ -61,15 +56,18 @@ async fn main() -> anyhow::Result<()> {
         anyhow::bail!("failed to fetch CRDs for any of the specified families/versions")
     }
 
+    let workspace = templates::WorkspaceConfig::default();
+
     let generator = kopium::KopiumTypeGenerator::builder()
         .docs(true)
-        .builders(true)
+        // .builders(true)  // seems to cause extremely slow compilation 🤔
+        .builders(false)
         .map_type("HashMap")
         .schema("derived")
         .smart_derive_elision(true)
         .build();
 
-    let mut provider_crates = Vec::<templates::ProviderCrate>::new();
+    let mut provider_crates = Vec::<templates::ProviderCrate<'_>>::new();
 
     for (family, version, crds) in provider_families
         .iter()
@@ -80,9 +78,10 @@ async fn main() -> anyhow::Result<()> {
             let feature_name = format!("{family}-{provider}");
             let crate_name = format!("crossplane-types-upbound-{feature_name}");
 
-            let crate_path = META_CRATE_DIR.join("crates").join(&crate_name);
+            let crate_path = PROVIDER_CRATES_DIR.join(&crate_name);
 
             let mut template = templates::ProviderCrate {
+                workspace,
                 crate_name,
                 crate_path,
                 feature_name,
@@ -253,7 +252,7 @@ async fn main() -> anyhow::Result<()> {
 
             template.crate_path = template
                 .crate_path
-                .strip_prefix(META_CRATE_DIR.as_path())
+                .strip_prefix(PROVIDER_CRATES_DIR.as_path())
                 .expect("unable to strip path prefix") // this *should* be infallible
                 .to_path_buf();
 
@@ -270,63 +269,6 @@ async fn main() -> anyhow::Result<()> {
     }
 
     tracing::debug!("generated {} provider crates", provider_crates.len());
-
-    let (meta_crate_src_dir, meta_crate_manifest_path) = (
-        META_CRATE_DIR.join("src"),
-        META_CRATE_DIR.join("Cargo.toml"),
-    );
-
-    let (meta_crate_lib_file, meta_crate_generated_mod_file) = (
-        meta_crate_src_dir.join("lib.rs"),
-        meta_crate_src_dir.join("generated.rs"),
-    );
-
-    if args.regenerate_meta_lib {
-        tracing::warn!("regenerating `crossplane-types` meta-crate from scratch");
-        std::fs::remove_dir_all(&meta_crate_src_dir)?;
-    }
-
-    std::fs::create_dir_all(&meta_crate_src_dir)
-        .context("failed to create required `crossplane-types` src directory")?;
-
-    let meta_crate = templates::MetaCrate {
-        provider_crates,
-        ..Default::default()
-    };
-
-    if !meta_crate_lib_file.exists() {
-        let meta_crate_lib_code = meta_crate
-            .as_generated_lib()
-            .render()
-            .context("failed to render `lib.rs` file for `crossplane-types` crate")?;
-
-        std::fs::write(&meta_crate_lib_file, meta_crate_lib_code)
-            .context("failed to write `lib.rs` file for `crossplane-types` crate to disk")?;
-    }
-
-    let meta_crate_manifest = meta_crate
-        .as_manifest()
-        .render()
-        .context("unable to render `Cargo.toml` manifest for `crossplane-types` crate")?;
-
-    std::fs::write(&meta_crate_manifest_path, meta_crate_manifest)
-        .context("failed to write `Cargo.toml` manifest for `crossplane-types` crate to disk")?;
-
-    let meta_crate_generated_mod_code = meta_crate
-        .as_generated_mod()
-        .render()
-        .context("unable to render `generated.rs` file for `crossplane-types` crate")?;
-
-    std::fs::write(
-        &meta_crate_generated_mod_file,
-        meta_crate_generated_mod_code,
-    )
-    .context("failed to write `generated.rs` file for `crossplane-types` crate to disk")?;
-
-    tracing::debug!(
-        "wrote generated module to meta crate: {}",
-        meta_crate_generated_mod_file.display()
-    );
 
     Ok(())
 }

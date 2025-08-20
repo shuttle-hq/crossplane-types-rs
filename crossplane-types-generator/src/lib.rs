@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+pub use cargo_toml::{Manifest as CargoManifest, Value as TomlValue};
 use k8s_openapi::apiextensions_apiserver::pkg::apis::apiextensions::v1::CustomResourceDefinition;
 
 pub mod cli;
@@ -9,6 +10,7 @@ pub mod utils;
 pub type ProviderName = String;
 pub type ResourceName = String;
 pub type ProviderCRDs = HashMap<ResourceName, CustomResourceDefinition>;
+pub type WorkspaceManifest = cargo_toml::Workspace<TomlValue>;
 
 #[derive(Clone, Debug)]
 pub struct ProviderFamilyCRDS<'a> {
