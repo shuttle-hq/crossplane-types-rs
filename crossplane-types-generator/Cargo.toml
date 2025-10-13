@@ -44,7 +44,7 @@ tracing-subscriber = { version = "0.3", default-features = false, features = [
     "smallvec",
     "tracing-log",
 ] }
-zip = { version = "4", default-features = false, features = [
+zip = { version = "6", default-features = false, features = [
     "deflate",
     "lzma",
     "time",
